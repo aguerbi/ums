@@ -1,27 +1,30 @@
 <!-- Sidebar -->
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ path('homepage') }}">
         <div class="sidebar-brand-icon rotate-n-15">
-            <img src="{{asset('pictures/UGTT.jpg')}}" width="50" height="50"alt="ugtt"/>
+            <img src="{{asset('img/ugtt.jpg')}}" width="50" height="50"alt="ugtt"/>
         </div>
         <div class="sidebar-brand-text mx-3">U M S <sup></sup></div>
     </a>
-
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
-
     <!-- Nav Item - Dashboard -->
     <li class="nav-item active">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="{{ path('homepage') }}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Dashboard</span></a>
+            <span>Tableau de bord</span></a>
     </li>
-
     <!-- Divider -->
     <hr class="sidebar-divider">
-
+    <!-- Nav Item - Charts -->
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path('company_index') }}">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Société</span></a>
+    </li>
+    <!-- Divider -->
+    <hr class="sidebar-divider">
     <!-- Heading -->
     <div class="sidebar-heading">
         Interface

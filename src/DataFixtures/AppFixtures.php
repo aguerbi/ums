@@ -2,9 +2,11 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Company;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
+use Faker\Factory;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture {
@@ -16,13 +18,25 @@ class AppFixtures extends Fixture {
     }
 
     public function load(ObjectManager $manager) {
-
+        $faker = Factory::create('fr_FR');
+        // Ajouter utilisateur
         $user = new User();
         $user->setUsername('admin');
         $user->setPassword($this->passwordEncoder->encodePassword($user, 'password'));
         $user->setRoles(array('ROLE_USER'));
         $manager->persist($user);
-
+        // Ajouter société
+        for ($i = 0; $i < 100; $i++) {
+            $company = new Company();
+            $company->setName($faker->company);
+            $company->setEmail($faker->companyEmail);
+            $company->setPhone($faker->e164PhoneNumber);
+            $company->setFax($faker->e164PhoneNumber);
+            $company->setAddress($faker->address);
+            $company->setDirector($faker->name);
+            $company->setMobile($faker->e164PhoneNumber);
+            $manager->persist($company);
+        }
         $manager->flush();
     }
 
