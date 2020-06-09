@@ -9,28 +9,37 @@
         <a href="{{ path('company_new') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Ajouter société</a>
     </div>
 
+    <form class="col-md-3 float-right" role="search" methode="get">
+        <div class="input-group mb-3">
+            <input type="search" class="form-control" placeholder="Nom ou prénom ou téléphone de patient" name="search">
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="submit" id="button-addon2"><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+    </form>
+
     <table class="table table-bordered">
         <thead>
             <tr>
                 <th>Société</th>
                 <th>Téléphone</th>
                 <th>Fax</th>
-                <th>Director</th>
-                <th>Portable</th>
+                <th>Adresse E-mail</th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
             {% for company in companies %}
                 <tr>
-                    <td><a href="{{ path('company_show', {'id': company.id}) }}">{{ company.name }}</a></td>
+                    <td><a href="{{ path('company_show', {'id': company.id}) }}" {% if (company.director is not null) %}data-toggle="tooltip" data-placement="bottom" data-html="true" title="{{ company.director|title ~'<br>'~ company.mobile }}"{% endif %}>{{ company.name|title }}</a></td>
                     <td>{{ company.phone }}</td>
-                    <td>{{ company.fax }}</td>
-                    <td>{{ company.director }}</td>
-                    <td>{{ company.mobile }}</td>
+                    <td>{{ company.fax|default('Pas de Fax') }}</td>
+                    <td>{{ company.email|default('Pas de E-mail') }}</td>
                     <td>
                         <a href="{{ path('company_edit', {'id': company.id}) }}"><i class="fas fa-pencil-alt"></i></a>
+                        <a href="" data-toggle="modal" data-target="#deleteModal-{{ company.id }}" ><i class="fas fa-trash"></i></a>
                     </td>
+                    {{ include('company/_delete_form.html.twig') }}
                 </tr>
             {% endfor %}
         </tbody>

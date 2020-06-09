@@ -20,13 +20,13 @@ class CompanyController extends AbstractController {
      * @Route("/", name="company_index", methods={"GET"})
      */
     public function index(CompanyRepository $companyRepository, PaginatorInterface $paginator, Request $request): Response {
-        $resulat = $companyRepository->findAll();
+        $resulat = $companyRepository->findby([], ['id' => 'DESC']);
         // dd($company);
 
         $companies = $paginator->paginate(
                 $resulat, /* query NOT result */
                 $request->query->getInt('page', 1), /* page number */
-                30 /* limit per page */
+                20 /* limit per page */
         );
 
         return $this->render('company/index.html.twig', [
@@ -46,7 +46,7 @@ class CompanyController extends AbstractController {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($company);
             $entityManager->flush();
-
+            $this->addFlash('success', 'Société ajoutée');
             return $this->redirectToRoute('company_index');
         }
 
@@ -74,7 +74,7 @@ class CompanyController extends AbstractController {
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
+            $this->addFlash('success', 'Société modifiée');
             return $this->redirectToRoute('company_index');
         }
 
@@ -93,7 +93,7 @@ class CompanyController extends AbstractController {
             $entityManager->remove($company);
             $entityManager->flush();
         }
-
+        $this->addFlash('success', 'Société supprimée');
         return $this->redirectToRoute('company_index');
     }
 

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\CompanyRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CompanyRepository::class)
@@ -23,32 +24,44 @@ class Company {
     private $name;
 
     /**
+     * @Assert\Length(
+     *      min = 8,
+     *      max = 11
+     * )
      * @ORM\Column(type="string", length=255)
      */
     private $phone;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @Assert\Length(
+     *      min = 8,
+     *      max = 11
+     * )
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $fax;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $email;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
     private $address;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $director;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @Assert\Length(
+     *      min = 8,
+     *      max = 11
+     * )
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $mobile;
 

@@ -38,6 +38,11 @@
                         {{  include ("menu/topbar.html.twig") }}
                         <!-- Begin Page Content -->
                         <div class="container-fluid">
+                            {% for message in app.flashes('success') %}
+                                <div class="alert alert-success">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
                             {% block body %}{% endblock %}
                         </div>
                         <!-- End of Main Content -->
@@ -67,6 +72,11 @@
             <!-- Page level custom scripts -->
             <script src="{{ asset('js/demo/chart-area-demo.js')}}""></script>
             <script src="{{ asset('js/demo/chart-pie-demo.js')}}""></script>
+            <script>
+                $(function () {
+                    $('[data-toggle="tooltip"]').tooltip()
+                })
+            </script>
         {% endblock %}
     </body>
 </html>

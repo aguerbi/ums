@@ -1,4 +1,32 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+<div class="row">
+    <div class="col">
+        {{ form_row(form.name) }}
+    </div>
+    <div class="col">
+        {{ form_row(form.email) }}
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        {{ form_row(form.phone) }}
+    </div>
+    <div class="col">
+        {{ form_row(form.fax) }}
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        {{ form_row(form.address) }}
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        {{ form_row(form.director) }}
+    </div>
+    <div class="col">
+        {{ form_row(form.mobile) }}
+    </div>
+</div>
+<button class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
 {{ form_end(form) }}
