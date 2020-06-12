@@ -6,12 +6,12 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Liste des sociétés</h1>
-        <a href="{{ path('company_new') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Ajouter société</a>
     </div>
+    <a href="{{ path('company_new') }}" class="btn btn-primary"><i class="fas fa-plus"></i> Ajouter société</a>
 
-    <form class="col-md-3 float-right" role="search" methode="get">
+    <form class="col-md-4 float-right" role="search" methode="get">
         <div class="input-group mb-3">
-            <input type="search" class="form-control" placeholder="Nom ou prénom ou téléphone de patient" name="search">
+            <input type="search" class="form-control" placeholder="Société | Téléphone | Fax" name="search">
             <div class="input-group-append">
                 <button class="btn btn-primary" type="submit" id="button-addon2"><i class="fas fa-search"></i></button>
             </div>
@@ -40,6 +40,10 @@
                         <a href="" data-toggle="modal" data-target="#deleteModal-{{ company.id }}" ><i class="fas fa-trash"></i></a>
                     </td>
                     {{ include('company/_delete_form.html.twig') }}
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5" class="table-danger text-center text-danger">Aucun enregistrement trouvé</td>
                 </tr>
             {% endfor %}
         </tbody>

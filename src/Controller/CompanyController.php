@@ -20,9 +20,17 @@ class CompanyController extends AbstractController {
      * @Route("/", name="company_index", methods={"GET"})
      */
     public function index(CompanyRepository $companyRepository, PaginatorInterface $paginator, Request $request): Response {
-        $resulat = $companyRepository->findby([], ['id' => 'DESC']);
-        // dd($company);
 
+        // dd($company);
+        $entityManager = $this->getDoctrine()->getManager();
+        if ($request->query->getAlnum('search')) {
+            $query = $entityManager->createQuery(
+                            'SELECT c FROM App:Company c WHERE  c.name LIKE :search OR c.phone LIKE :search OR c.fax LIKE :search'
+                    )->setParameter('search', '%' . $request->query->getAlnum('search') . '%');
+            $resulat = $query->getResult();
+        } else {
+            $resulat = $companyRepository->findby([], ['id' => 'DESC']);
+        }
         $companies = $paginator->paginate(
                 $resulat, /* query NOT result */
                 $request->query->getInt('page', 1), /* page number */
@@ -75,7 +83,7 @@ class CompanyController extends AbstractController {
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
             $this->addFlash('success', 'Société modifiée');
-            return $this->redirectToRoute('company_index');
+            return $this->redirectToRoute('company_show', ['id' => $company->getId()]);
         }
 
         return $this->render('company/edit.html.twig', [

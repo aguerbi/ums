@@ -1,54 +1,126 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Company{% endblock %}
+{% block title %}Société {{ company.name|title }}{% endblock %}
 
 {% block body %}
-    <h1>Company</h1>
-
-    <table class="table">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Société {{ company.name|title }}</h1>
+    </div>
+    <table class="table table-bordered">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ company.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
+                <th>Nom de société</th>
                 <td>{{ company.name }}</td>
+                <th>E-mail</th>
+                <td>{{ company.email|default('Pas de E-mail') }}</td>
             </tr>
             <tr>
-                <th>Phone</th>
+                <th>Téléphone</th>
                 <td>{{ company.phone }}</td>
-            </tr>
-            <tr>
                 <th>Fax</th>
-                <td>{{ company.fax }}</td>
+                <td>{{ company.fax|default('Pas de fax') }}</td>
             </tr>
             <tr>
-                <th>Email</th>
-                <td>{{ company.email }}</td>
+                <th>Directeur</th>
+                <td>{{ company.director|title|default('Pas de directeur') }}</td>
+                <th>Portable</th>
+                <td>{{ company.mobile|default('Pas de portable') }}</td>
             </tr>
             <tr>
-                <th>Address</th>
-                <td>{{ company.address }}</td>
-            </tr>
-            <tr>
-                <th>Director</th>
-                <td>{{ company.director }}</td>
-            </tr>
-            <tr>
-                <th>Mobile</th>
-                <td>{{ company.mobile }}</td>
-            </tr>
-            <tr>
-                <th>Created_at</th>
-                <td>{{ company.createdAt ? company.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <th>Adresse</th>
+                <td>{{ company.address|default('Pas d\'adresse') }}</td>
+
+                <th>Date d'ajout</th>
+                <td>{{ company.createdAt ? company.createdAt|date('d/m/Y') : '' }}</td>
             </tr>
         </tbody>
     </table>
+    <hr>
 
-    <a href="{{ path('company_index') }}">back to list</a>
+    <a href="{{ path('company_edit', {'id': company.id}) }}" class="btn btn-primary float-right"><i class="fas fa-pencil-alt"></i> Modifier</a>
 
-    <a href="{{ path('company_edit', {'id': company.id}) }}">edit</a>
-
+    <button class="btn btn-danger float-right" data-toggle="modal" data-target="#deleteModal-{{ company.id }}"  style="margin-right: 10px;"><i class="fas fa-trash-alt"></i> Supprimer</button>
     {{ include('company/_delete_form.html.twig') }}
+    <a href="{{ path('company_index') }}" class="btn btn-info"><i class="fas fa-angle-left"></i> Retour à la liste</a>
+    <br><br>
+
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link active" id="nav-ad-tab" data-toggle="tab" href="#nav-ad" role="tab" aria-controls="nav-ad" aria-selected="true">Adhérents</a>
+            <a class="nav-item nav-link" id="nav-sy-tab" data-toggle="tab" href="#nav-sy" role="tab" aria-controls="nav-sy" aria-selected="false">Syndicats</a>
+            <a class="nav-item nav-link" id="nav-ms-tab" data-toggle="tab" href="#nav-ms" role="tab" aria-controls="nav-ms" aria-selected="false">Membres Syndicate</a>
+            <a class="nav-item nav-link" id="nav-ev-tab" data-toggle="tab" href="#nav-ev" role="tab" aria-controls="nav-ev" aria-selected="false">Evènements</a>
+        </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-ad" role="tabpanel" aria-labelledby="nav-ad-tab">
+            <a href="{{ path('adherent_new') }}" class="btn btn-primary mt-3 mb-3"><i class="fas fa-plus"></i> Ajouter adhérent</a>
+
+            <form class="col-md-4 float-right" role="search" methode="get">
+                <div class="input-group mb-3 mt-3">
+                    <input type="search" class="form-control" placeholder="Prénom | Nom | Cin" name="search">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit" id="button-addon2"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+            </form>
+
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+
+                        <th>Prénom et Nom</th>
+                        <th>Cin</th>
+                        <th>Numéro CID</th>
+                        <th>Date CID</th>
+                        <th>Protable</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for adherent in company.adherents %}
+                        <tr>
+                            <td><a href="{{ path('adherent_show', {'id': adherent.id}) }}">{{ adherent.firstName|title }} {{ adherent.lastName|title }}</a></td>
+                            <td>{{ adherent.cin }}</td>
+                            <td>{{ adherent.numberCard }}</td>
+                            <td>{{ adherent.deliveryAt ? adherent.deliveryAt|date('d/m/Y') : '' }}</td>
+                            <td>{{ adherent.mobile }}</td>
+                            <td>
+                                <a href="{{ path('adherent_edit', {'id': adherent.id}) }}"><i class="fas fa-pencil-alt"></i></a>
+                                <a href="" data-toggle="modal" data-target="#deleteModal-{{ adherent.id }}" ><i class="fas fa-trash"></i></a>
+                            </td>
+                            {{ include('adherent/_delete_form.html.twig') }}
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="7" class="table-danger text-center text-danger">Aucun enregistrement trouvé</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+        <div class="tab-pane fade" id="nav-sy" role="tabpanel" aria-labelledby="nav-sy-tab">2</div>
+        <div class="tab-pane fade" id="nav-ms" role="tabpanel" aria-labelledby="nav-ms-tab">3</div>
+        <div class="tab-pane fade" id="nav-ev" role="tabpanel" aria-labelledby="nav-ev-tab">4</div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {% endblock %}

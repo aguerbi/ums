@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CompanyRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -70,8 +72,14 @@ class Company {
      */
     private $created_at;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Adherent::class, mappedBy="company", orphanRemoval=true)
+     */
+    private $adherents;
+
     public function __construct() {
         return $this->created_at = new \DateTime('now');
+        $this->adherents = new ArrayCollection();
     }
 
     public function getId(): ?int {
@@ -154,6 +162,37 @@ class Company {
 
     public function setCreatedAt(\DateTimeInterface $created_at): self {
         $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Adherent[]
+     */
+    public function getAdherents(): Collection
+    {
+        return $this->adherents;
+    }
+
+    public function addAdherent(Adherent $adherent): self
+    {
+        if (!$this->adherents->contains($adherent)) {
+            $this->adherents[] = $adherent;
+            $adherent->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAdherent(Adherent $adherent): self
+    {
+        if ($this->adherents->contains($adherent)) {
+            $this->adherents->removeElement($adherent);
+            // set the owning side to null (unless already changed)
+            if ($adherent->getCompany() === $this) {
+                $adherent->setCompany(null);
+            }
+        }
 
         return $this;
     }

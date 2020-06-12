@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Adhérent{% endblock %}
+
+{% block body %}
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Adhérent</h1>
+    </div>
+
+    <table class="table table-bordered">
+        <tbody>
+
+            <tr>
+                <th>Prénom</th>
+                <td>{{ adherent.firstName|title }}</td>
+                <th>Nom</th>
+                <td>{{ adherent.lastName|title }}</td>
+            </tr>
+            <tr>
+                <th>Cin</th>
+                <td>{{ adherent.cin }}</td>
+                <th>Mobile</th>
+                <td>{{ adherent.mobile }}</td>
+            </tr>
+            <tr>
+                <th>Électeur</th>
+                <td>
+                    {% if electer == 1 %}
+                        Oui
+                    {% else %}
+                        Non
+                    {% endif %}
+                </td>
+                <th>Membre Syndicate</th>
+                <td>
+                    {% if member == 3 %}
+                        Oui
+                    {% else %}
+                        Non
+                    {% endif %}
+
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <hr>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>NumberCard</th>
+                <th>Delivery_at</th>
+                <th>Year</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for card in adherent.cards %}
+                <tr>
+                    <td>{{ card.id }}</td>
+                    <td>{{ card.numberCard }}</td>
+                    <td>{{ card.deliveryAt ? card.deliveryAt|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ card.year }}</td>
+                    <td>
+                        <a href="{{ path('card_show', {'id': card.id}) }}">show</a>
+                        <a href="{{ path('card_edit', {'id': card.id}) }}">edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">no records found</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ path('adherent_index') }}">back to list</a>
+
+    <a href="{{ path('adherent_edit', {'id': adherent.id}) }}">edit</a>
+
+    {{ include('adherent/_delete_form.html.twig') }}
+{% endblock %}
