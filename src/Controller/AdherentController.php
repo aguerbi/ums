@@ -51,12 +51,13 @@ class AdherentController extends AbstractController {
      * @Route("/{id}", name="adherent_show", methods={"GET"})
      */
     public function show(Adherent $adherent, CardRepository $cardRepository): Response {
-        $member = $cardRepository->getCountYear($adherent);
-        $electer = $cardRepository->getNowYear($adherent);
+
+        $memberSyndicate = $cardRepository->getMemberSyandicate($adherent);
+        $electer = $cardRepository->getElecter($adherent);
+        $memberSyndicate == 3 ? ($m = 'Oui') : ( $m = 'Non');
+        $electer == 1 ? ($e = 'Oui') : ($e = 'Non');
         return $this->render('adherent/show.html.twig', [
-                    'adherent' => $adherent,
-                    'member' => $member,
-                    'electer' => $electer
+                    'adherent' => $adherent, 'm' => $m, 'e' => $e
         ]);
     }
 

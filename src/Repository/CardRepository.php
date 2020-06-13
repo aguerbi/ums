@@ -46,7 +46,7 @@ class CardRepository extends ServiceEntityRepository {
       ;
       }
      */
-    public function getCountYear($adherent) {
+    public function getMemberSyandicate($adherent) {
 
         $q = $this->getEntityManager()->createQuery(
                         "SELECT count(c.id)
@@ -54,9 +54,10 @@ class CardRepository extends ServiceEntityRepository {
                   WHERE c.adherent = :adherent AND (c.year = YEAR(NOW()) OR c.year = YEAR(NOW())-1 OR c.year = YEAR(NOW())-2 )"
                 )->setParameter('adherent', $adherent);
         return $q->getSingleScalarResult();
+        // resultat vrai 3
     }
 
-    public function getNowYear($adherent) {
+    public function getElecter($adherent) {
 
         $q = $this->getEntityManager()->createQuery(
                         "SELECT count(c.id)
@@ -64,6 +65,7 @@ class CardRepository extends ServiceEntityRepository {
                   WHERE c.adherent = :adherent AND c.year = YEAR(NOW())"
                 )->setParameter('adherent', $adherent);
         return $q->getSingleScalarResult();
+        //resulat vari 1
     }
 
 }
