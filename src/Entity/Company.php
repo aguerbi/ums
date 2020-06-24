@@ -77,9 +77,15 @@ class Company {
      */
     private $adherents;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Syndicat::class, mappedBy="company", orphanRemoval=true)
+     */
+    private $syndicats;
+
     public function __construct() {
         return $this->created_at = new \DateTime('now');
         $this->adherents = new ArrayCollection();
+        $this->syndicats = new ArrayCollection();
     }
 
     public function getId(): ?int {
@@ -191,6 +197,37 @@ class Company {
             // set the owning side to null (unless already changed)
             if ($adherent->getCompany() === $this) {
                 $adherent->setCompany(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Syndicat[]
+     */
+    public function getSyndicats(): Collection
+    {
+        return $this->syndicats;
+    }
+
+    public function addSyndicat(Syndicat $syndicat): self
+    {
+        if (!$this->syndicats->contains($syndicat)) {
+            $this->syndicats[] = $syndicat;
+            $syndicat->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSyndicat(Syndicat $syndicat): self
+    {
+        if ($this->syndicats->contains($syndicat)) {
+            $this->syndicats->removeElement($syndicat);
+            // set the owning side to null (unless already changed)
+            if ($syndicat->getCompany() === $this) {
+                $syndicat->setCompany(null);
             }
         }
 

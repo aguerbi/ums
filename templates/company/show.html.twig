@@ -2,6 +2,7 @@
 
 {% block title %}Société {{ company.name|title }}{% endblock %}
 
+
 {% block body %}
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Société {{ company.name|title }}</h1>
@@ -9,10 +10,10 @@
     <table class="table table-bordered">
         <tbody>
             <tr>
-                <th>Nom de société</th>
-                <td>{{ company.name }}</td>
-                <th>E-mail</th>
-                <td>{{ company.email|default('Pas de E-mail') }}</td>
+                <th style="width: 25%">Nom de société</th>
+                <td style="width: 25%">{{ company.name }}</td>
+                <th style="width: 25%">E-mail</th>
+                <td style="width: 25%">{{ company.email|default('Pas de E-mail') }}</td>
             </tr>
             <tr>
                 <th>Téléphone</th>
@@ -54,25 +55,14 @@
     </nav>
     <div class="tab-content" id="nav-tabContent">
         <div class="tab-pane fade show active" id="nav-ad" role="tabpanel" aria-labelledby="nav-ad-tab">
-            <a href="{{ path('adherent_new') }}" class="btn btn-primary mt-3 mb-3"><i class="fas fa-plus"></i> Ajouter adhérent</a>
+            <a href="{{ path('adherent_new', {'id': company.id} ) }}" class="btn btn-primary mt-3 mb-3"><i class="fas fa-plus"></i> Ajouter adhérent</a>
 
-            <form class="col-md-4 float-right" role="search" methode="get">
-                <div class="input-group mb-3 mt-3">
-                    <input type="search" class="form-control" placeholder="Prénom | Nom | Cin" name="search">
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" type="submit" id="button-addon2"><i class="fas fa-search"></i></button>
-                    </div>
-                </div>
-            </form>
-
-            <table class="table table-bordered">
+            <table class="table table-bordered" id="dataTable">
                 <thead>
                     <tr>
 
                         <th>Prénom et Nom</th>
                         <th>Cin</th>
-                        <th>Numéro CID</th>
-                        <th>Date CID</th>
                         <th>Protable</th>
                         <th></th>
                     </tr>
@@ -82,8 +72,6 @@
                         <tr>
                             <td><a href="{{ path('adherent_show', {'id': adherent.id}) }}">{{ adherent.firstName|title }} {{ adherent.lastName|title }}</a></td>
                             <td>{{ adherent.cin }}</td>
-                            <td>{{ adherent.numberCard }}</td>
-                            <td>{{ adherent.deliveryAt ? adherent.deliveryAt|date('d/m/Y') : '' }}</td>
                             <td>{{ adherent.mobile }}</td>
                             <td>
                                 <a href="{{ path('adherent_edit', {'id': adherent.id}) }}"><i class="fas fa-pencil-alt"></i></a>
@@ -124,3 +112,4 @@
 
 
 {% endblock %}
+

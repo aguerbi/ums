@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Syndicat index{% endblock %}
+
+{% block body %}
+    <h1>Syndicat index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for syndicat in syndicats %}
+            <tr>
+                <td>{{ syndicat.id }}</td>
+                <td>{{ syndicat.name }}</td>
+                <td>
+                    <a href="{{ path('syndicat_show', {'id': syndicat.id}) }}">show</a>
+                    <a href="{{ path('syndicat_edit', {'id': syndicat.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('syndicat_new') }}">Create new</a>
+{% endblock %}

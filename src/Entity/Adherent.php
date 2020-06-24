@@ -37,16 +37,6 @@ class Adherent {
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $numberCard;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $delivery_at;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
     private $mobile;
 
     /**
@@ -60,8 +50,7 @@ class Adherent {
      */
     private $cards;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->cards = new ArrayCollection();
     }
 
@@ -99,16 +88,6 @@ class Adherent {
         return $this;
     }
 
-    public function getNumberCard(): ?string {
-        return $this->numberCard;
-    }
-
-    public function setNumberCard(string $numberCard): self {
-        $this->numberCard = $numberCard;
-
-        return $this;
-    }
-
     public function getMobile(): ?string {
         return $this->mobile;
     }
@@ -119,23 +98,11 @@ class Adherent {
         return $this;
     }
 
-    public function getDeliveryAt(): ?\DateTimeInterface {
-        return $this->delivery_at;
-    }
-
-    public function setDeliveryAt(\DateTimeInterface $delivery_at): self {
-        $this->delivery_at = $delivery_at;
-
-        return $this;
-    }
-
-    public function getCompany(): ?Company
-    {
+    public function getCompany(): ?Company {
         return $this->company;
     }
 
-    public function setCompany(?Company $company): self
-    {
+    public function setCompany(?Company $company): self {
         $this->company = $company;
 
         return $this;
@@ -144,13 +111,11 @@ class Adherent {
     /**
      * @return Collection|Card[]
      */
-    public function getCards(): Collection
-    {
+    public function getCards(): Collection {
         return $this->cards;
     }
 
-    public function addCard(Card $card): self
-    {
+    public function addCard(Card $card): self {
         if (!$this->cards->contains($card)) {
             $this->cards[] = $card;
             $card->setAdherent($this);
@@ -159,8 +124,7 @@ class Adherent {
         return $this;
     }
 
-    public function removeCard(Card $card): self
-    {
+    public function removeCard(Card $card): self {
         if ($this->cards->contains($card)) {
             $this->cards->removeElement($card);
             // set the owning side to null (unless already changed)

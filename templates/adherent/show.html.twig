@@ -11,10 +11,10 @@
         <tbody>
 
             <tr>
-                <th>Prénom</th>
-                <td>{{ adherent.firstName|title }}</td>
-                <th>Nom</th>
-                <td>{{ adherent.lastName|title }}</td>
+                <th style="width: 25%">Prénom</th>
+                <td style="width: 25%">{{ adherent.firstName|title }}</td>
+                <th style="width: 25%">Nom</th>
+                <td style="width: 25%">{{ adherent.lastName|title }}</td>
             </tr>
             <tr>
                 <th>Cin</th>
@@ -36,39 +36,43 @@
         </tbody>
     </table>
     <hr>
+    <a href="{{ path('adherent_edit', {'id': adherent.id}) }}" class="btn btn-primary float-right"><i class="fas fa-pencil-alt"></i> Modifier</a>
 
-    <table class="table table-bordered">
+    <button class="btn btn-danger float-right" data-toggle="modal" data-target="#deleteModal-{{ adherent.id }}"  style="margin-right: 10px;"><i class="fas fa-trash-alt"></i> Supprimer</button>
+    {{ include('adherent/_delete_form.html.twig') }}
+    <a href="{{ path('company_show',{'id':adherent.company.id}) }}" class="btn btn-info"><i class="fas fa-angle-left"></i> Retour à la liste</a>
+    <br><br>
+
+    <a href="{{ path('card_new', {'id': adherent.id} ) }}" class="btn btn-primary mt-3 mb-3"><i class="fas fa-plus"></i> Ajouter carte</a>
+    <table class="table table-bordered" id="dataTable">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>NumberCard</th>
-                <th>Delivery_at</th>
-                <th>Year</th>
-                <th>actions</th>
+                <th>N°</th>
+                <th>Numéro CID</th>
+                <th>Numéro CID</th>
+                <th>Année</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
-            {% for card in adherent.cards %}
+            {% for card in adherent.cards|sort|reverse %}
                 <tr>
-                    <td>{{ card.id }}</td>
+                    <td>{{ loop.index }}</td>
                     <td>{{ card.numberCard }}</td>
-                    <td>{{ card.deliveryAt ? card.deliveryAt|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ card.deliveryAt ? card.deliveryAt|date('d/m/Y') : '' }}</td>
                     <td>{{ card.year }}</td>
                     <td>
-                        <a href="{{ path('card_show', {'id': card.id}) }}">show</a>
-                        <a href="{{ path('card_edit', {'id': card.id}) }}">edit</a>
+                        <a href="{{ path('card_edit', {'id': card.id}) }}"><i class="fas fa-pencil-alt"></i></a>
+                        <a href="" data-toggle="modal" data-target="#deleteModal-{{ card.id }}" ><i class="fas fa-trash"></i></a>
+                    </td>
+                    {{ include('card/_delete_form.html.twig') }}
                     </td>
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="5">no records found</td>
+                    <td colspan="5" class="table-danger text-center text-danger">Aucun enregistrement trouvé</td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
-    <a href="{{ path('adherent_index') }}">back to list</a>
-
-    <a href="{{ path('adherent_edit', {'id': adherent.id}) }}">edit</a>
-
-    {{ include('adherent/_delete_form.html.twig') }}
 {% endblock %}

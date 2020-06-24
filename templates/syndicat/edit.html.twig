@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Syndicat{% endblock %}
+
+{% block body %}
+    <h1>Edit Syndicat</h1>
+
+    {{ include('syndicat/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('syndicat_index') }}">back to list</a>
+
+    {{ include('syndicat/_delete_form.html.twig') }}
+{% endblock %}

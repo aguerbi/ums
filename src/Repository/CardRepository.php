@@ -65,7 +65,17 @@ class CardRepository extends ServiceEntityRepository {
                   WHERE c.adherent = :adherent AND c.year = YEAR(NOW())"
                 )->setParameter('adherent', $adherent);
         return $q->getSingleScalarResult();
-        //resulat vari 1
+        // resulat vari 1
+    }
+
+    public function getLastCard($adherent) {
+
+        $q = $this->getEntityManager()->createQuery(
+                        "SELECT c
+	          FROM  App:Card c
+                  WHERE c.adherent = :adherent AND c.year = YEAR(NOW())"
+                )->setParameter('adherent', $adherent);
+        return $q->getResult();
     }
 
 }

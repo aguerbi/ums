@@ -42,8 +42,6 @@ class AppFixtures extends Fixture {
                 $adherent->setFirstName($faker->firstName);
                 $adherent->setLastName($faker->lastName);
                 $adherent->setCin($faker->numerify('0#######'));
-                $adherent->setNumberCard($faker->numerify('008#####'));
-                $adherent->setDeliveryAt(new \DateTime("now"));
                 $adherent->setMobile($faker->numerify('########'));
                 $adherent->setCompany($company);
                 $manager->persist($adherent);

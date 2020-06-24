@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Syndicat{% endblock %}
+
+{% block body %}
+    <h1>Syndicat</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ syndicat.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ syndicat.name }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('syndicat_index') }}">back to list</a>
+
+    <a href="{{ path('syndicat_edit', {'id': syndicat.id}) }}">edit</a>
+
+    {{ include('syndicat/_delete_form.html.twig') }}
+{% endblock %}

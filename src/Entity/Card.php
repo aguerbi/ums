@@ -8,8 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=CardRepository::class)
  */
-class Card
-{
+class Card {
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -38,56 +38,52 @@ class Card
      */
     private $adherent;
 
-    public function getId(): ?int
-    {
+    public function __construct() {
+        return $this->delivery_at = new \DateTime('now');
+    }
+
+    public function getId(): ?int {
         return $this->id;
     }
 
-    public function getNumberCard(): ?string
-    {
+    public function getNumberCard(): ?string {
         return $this->numberCard;
     }
 
-    public function setNumberCard(string $numberCard): self
-    {
+    public function setNumberCard(string $numberCard): self {
         $this->numberCard = $numberCard;
 
         return $this;
     }
 
-    public function getDeliveryAt(): ?\DateTimeInterface
-    {
+    public function getDeliveryAt(): ?\DateTimeInterface {
         return $this->delivery_at;
     }
 
-    public function setDeliveryAt(\DateTimeInterface $delivery_at): self
-    {
+    public function setDeliveryAt(\DateTimeInterface $delivery_at): self {
         $this->delivery_at = $delivery_at;
 
         return $this;
     }
 
-    public function getYear(): ?string
-    {
+    public function getYear(): ?string {
         return $this->year;
     }
 
-    public function setYear(string $year): self
-    {
+    public function setYear(string $year): self {
         $this->year = $year;
 
         return $this;
     }
 
-    public function getAdherent(): ?Adherent
-    {
+    public function getAdherent(): ?Adherent {
         return $this->adherent;
     }
 
-    public function setAdherent(?Adherent $adherent): self
-    {
+    public function setAdherent(?Adherent $adherent): self {
         $this->adherent = $adherent;
 
         return $this;
     }
+
 }

@@ -3,9 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Adherent;
-use App\Repository\CardRepository;
 use App\Form\AdherentType;
 use App\Repository\AdherentRepository;
+use App\Repository\CardRepository;
+use App\Repository\CompanyRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,19 +27,21 @@ class AdherentController extends AbstractController {
     }
 
     /**
-     * @Route("/new", name="adherent_new", methods={"GET","POST"})
+     * @Route("/{id}/new", name="adherent_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response {
+    public function new(Request $request, $id, CompanyRepository $companyRepository): Response {
         $adherent = new Adherent();
+        $company = $companyRepository->find($id);
         $form = $this->createForm(AdherentType::class, $adherent);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $adherent->setCompany($company);
             $entityManager->persist($adherent);
             $entityManager->flush();
 
-            return $this->redirectToRoute('adherent_index');
+            return $this->redirectToRoute('company_show', ['id' => $id]);
         }
 
         return $this->render('adherent/new.html.twig', [
@@ -57,7 +60,7 @@ class AdherentController extends AbstractController {
         $memberSyndicate == 3 ? ($m = 'Oui') : ( $m = 'Non');
         $electer == 1 ? ($e = 'Oui') : ($e = 'Non');
         return $this->render('adherent/show.html.twig', [
-                    'adherent' => $adherent, 'm' => $m, 'e' => $e
+                    'adherent' => $adherent, 'm' => $m, 'e' => $e,
         ]);
     }
 
@@ -71,7 +74,7 @@ class AdherentController extends AbstractController {
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('adherent_index');
+            return $this->redirectToRoute('company_show', ['id' => $adherent->getCompany()->getId()]);
         }
 
         return $this->render('adherent/edit.html.twig', [
@@ -90,7 +93,7 @@ class AdherentController extends AbstractController {
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('adherent_index');
+        return $this->redirectToRoute('company_show', ['id' => $adherent->getCompany()->getId()]);
     }
 
 }
