@@ -88,7 +88,47 @@
             </table>
 
         </div>
-        <div class="tab-pane fade" id="nav-sy" role="tabpanel" aria-labelledby="nav-sy-tab">2</div>
+        <div class="tab-pane fade" id="nav-sy" role="tabpanel" aria-labelledby="nav-sy-tab">
+            <a href="{{ path('syndicat_new', {'id': company.id} ) }}" class="btn btn-primary mt-3 mb-3"><i class="fas fa-plus"></i> Ajouter syndicat</a>
+
+            <table class="table table-bordered" id="dataTable1">
+                <thead>
+                    <tr>
+
+                        <th>Nom</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for syndicat in company.syndicats %}
+                        <tr>
+                            <td>{{ syndicat.Name|title }}</td>
+                            <td>
+                                <a href="{{ path('syndicat_edit', {'id': syndicat.id}) }}"><i class="fas fa-pencil-alt"></i></a>
+                                <a href="" data-toggle="modal" data-target="#deleteModal-{{ syndicat.id }}" ><i class="fas fa-trash"></i></a>
+                            </td>
+                            {{ include('syndicat/_delete_form.html.twig') }}
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="7" class="table-danger text-center text-danger">Aucun enregistrement trouvé</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+
         <div class="tab-pane fade" id="nav-ms" role="tabpanel" aria-labelledby="nav-ms-tab">3</div>
         <div class="tab-pane fade" id="nav-ev" role="tabpanel" aria-labelledby="nav-ev-tab">4</div>
     </div>

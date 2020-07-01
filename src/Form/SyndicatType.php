@@ -7,20 +7,19 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class SyndicatType extends AbstractType
-{
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
+class SyndicatType extends AbstractType {
+
+    public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-            ->add('name')
-            ->add('company')
+                ->add('name')
+        //     ->add('company')
         ;
     }
 
-    public function configureOptions(OptionsResolver $resolver)
-    {
+    public function configureOptions(OptionsResolver $resolver) {
         $resolver->setDefaults([
             'data_class' => Syndicat::class,
         ]);
     }
+
 }

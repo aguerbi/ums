@@ -13,7 +13,7 @@ $(function () {
 );
 // Call the dataTables jQuery plugin
 $(document).ready(function () {
-    $('#dataTable').DataTable({
+    $('#dataTable, #dataTable1').DataTable({
         "language": {
             "lengthMenu": "Affichage _MENU_ par page",
             "zeroRecords": "Aucun enregistrement trouvé",
@@ -28,6 +28,7 @@ $(document).ready(function () {
             }
         }
     });
+
 });
 
 $(function () {

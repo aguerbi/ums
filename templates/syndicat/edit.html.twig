@@ -1,13 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Syndicat{% endblock %}
+{% block title %}Modifier Syndicat{% endblock %}
 
 {% block body %}
-    <h1>Edit Syndicat</h1>
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Modifier syndicat</h1>
+    </div>
 
-    {{ include('syndicat/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('syndicat_index') }}">back to list</a>
+    {{ include('syndicat/_form.html.twig', {'button_label': 'Modifier'}) }}
 
-    {{ include('syndicat/_delete_form.html.twig') }}
+
 {% endblock %}
