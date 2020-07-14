@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter {% endblock %}
+
+{% block body %}
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Ajouter</h1>
+    </div>
+
+    {{ form_start(form) }}
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.syndicat) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.adherent) }}
+        </div>
+    </div>
+
+    <button class="btn btn-primary envoyer">{{ button_label|default('Enregistrer') }}</button>
+    {{ form_end(form) }}
+
+
+
+{% endblock %}

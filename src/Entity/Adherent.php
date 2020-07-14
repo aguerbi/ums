@@ -50,8 +50,14 @@ class Adherent {
      */
     private $cards;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Syndicat::class, mappedBy="memberSyndicat")
+     */
+    private $syndicats;
+
     public function __construct() {
         $this->cards = new ArrayCollection();
+        $this->syndicats = new ArrayCollection();
     }
 
     public function getId(): ?int {
@@ -134,6 +140,35 @@ class Adherent {
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection|Syndicat[]
+     */
+    public function getSyndicats(): Collection {
+        return $this->syndicats;
+    }
+
+    public function addSyndicat(Syndicat $syndicat): self {
+        if (!$this->syndicats->contains($syndicat)) {
+            $this->syndicats[] = $syndicat;
+            $syndicat->addMemberSyndicat($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSyndicat(Syndicat $syndicat): self {
+        if ($this->syndicats->contains($syndicat)) {
+            $this->syndicats->removeElement($syndicat);
+            $syndicat->removeMemberSyndicat($this);
+        }
+
+        return $this;
+    }
+
+    public function fullName() {
+        return $this->firstName . " " . $this->lastName;
     }
 
 }

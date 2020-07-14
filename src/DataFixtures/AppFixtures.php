@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Adherent;
 use App\Entity\Company;
+use App\Entity\Syndicat;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -46,6 +47,12 @@ class AppFixtures extends Fixture {
                 $adherent->setCompany($company);
                 $manager->persist($adherent);
             }
+            // Ajouter Syndicat
+            $syndicat = new Syndicat();
+            $syndicat->setName($faker->city);
+            $syndicat->setCompany($company);
+            $manager->persist($syndicat);
+
 
             $manager->persist($company);
         }

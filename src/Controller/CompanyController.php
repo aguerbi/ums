@@ -21,7 +21,6 @@ class CompanyController extends AbstractController {
      */
     public function index(CompanyRepository $companyRepository, PaginatorInterface $paginator, Request $request): Response {
 
-        // dd($company);
         $entityManager = $this->getDoctrine()->getManager();
         if ($request->query->getAlnum('search')) {
             $query = $entityManager->createQuery(

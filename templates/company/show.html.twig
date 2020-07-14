@@ -37,30 +37,25 @@
         </tbody>
     </table>
     <hr>
-
     <a href="{{ path('company_edit', {'id': company.id}) }}" class="btn btn-primary float-right"><i class="fas fa-pencil-alt"></i> Modifier</a>
-
     <button class="btn btn-danger float-right" data-toggle="modal" data-target="#deleteModal-{{ company.id }}"  style="margin-right: 10px;"><i class="fas fa-trash-alt"></i> Supprimer</button>
     {{ include('company/_delete_form.html.twig') }}
     <a href="{{ path('company_index') }}" class="btn btn-info"><i class="fas fa-angle-left"></i> Retour à la liste</a>
     <br><br>
-
     <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
             <a class="nav-item nav-link active" id="nav-ad-tab" data-toggle="tab" href="#nav-ad" role="tab" aria-controls="nav-ad" aria-selected="true">Adhérents</a>
             <a class="nav-item nav-link" id="nav-sy-tab" data-toggle="tab" href="#nav-sy" role="tab" aria-controls="nav-sy" aria-selected="false">Syndicats</a>
-            <a class="nav-item nav-link" id="nav-ms-tab" data-toggle="tab" href="#nav-ms" role="tab" aria-controls="nav-ms" aria-selected="false">Membres Syndicate</a>
+            <a class="nav-item nav-link" id="nav-ms-tab" data-toggle="tab" href="#nav-ms" role="tab" aria-controls="nav-ms" aria-selected="false">Membres Syndicats</a>
             <a class="nav-item nav-link" id="nav-ev-tab" data-toggle="tab" href="#nav-ev" role="tab" aria-controls="nav-ev" aria-selected="false">Evènements</a>
         </div>
     </nav>
     <div class="tab-content" id="nav-tabContent">
         <div class="tab-pane fade show active" id="nav-ad" role="tabpanel" aria-labelledby="nav-ad-tab">
             <a href="{{ path('adherent_new', {'id': company.id} ) }}" class="btn btn-primary mt-3 mb-3"><i class="fas fa-plus"></i> Ajouter adhérent</a>
-
             <table class="table table-bordered" id="dataTable">
                 <thead>
                     <tr>
-
                         <th>Prénom et Nom</th>
                         <th>Cin</th>
                         <th>Protable</th>
@@ -70,7 +65,7 @@
                 <tbody>
                     {% for adherent in company.adherents %}
                         <tr>
-                            <td><a href="{{ path('adherent_show', {'id': adherent.id}) }}">{{ adherent.firstName|title }} {{ adherent.lastName|title }}</a></td>
+                            <td><a href="{{ path('adherent_show', {'id': adherent.id}) }}">{{ adherent.fullName|title }}</a></td>
                             <td>{{ adherent.cin }}</td>
                             <td>{{ adherent.mobile }}</td>
                             <td>
@@ -86,15 +81,12 @@
                     {% endfor %}
                 </tbody>
             </table>
-
         </div>
         <div class="tab-pane fade" id="nav-sy" role="tabpanel" aria-labelledby="nav-sy-tab">
             <a href="{{ path('syndicat_new', {'id': company.id} ) }}" class="btn btn-primary mt-3 mb-3"><i class="fas fa-plus"></i> Ajouter syndicat</a>
-
             <table class="table table-bordered" id="dataTable1">
                 <thead>
                     <tr>
-
                         <th>Nom</th>
                         <th></th>
                     </tr>
@@ -116,21 +108,73 @@
                     {% endfor %}
                 </tbody>
             </table>
-
         </div>
-
-
-
-
-
-
-
-
-
-
-
-        <div class="tab-pane fade" id="nav-ms" role="tabpanel" aria-labelledby="nav-ms-tab">3</div>
-        <div class="tab-pane fade" id="nav-ev" role="tabpanel" aria-labelledby="nav-ev-tab">4</div>
+        <div class="tab-pane fade" id="nav-ms" role="tabpanel" aria-labelledby="nav-ms-tab">
+            <a href="{{ path('add_member_syndicat', {'id': company.id} ) }}" class="btn btn-primary mt-3 mb-3"><i class="fas fa-plus"></i> Ajouter membre syndicat</a>
+            <table class="table table-bordered" id="dataTable1">
+                <thead>
+                    <tr>
+                        <th>Nom & prénom</th>
+                        <th>Syndicat</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for syndicat in company.syndicats %}
+                        {% for member in syndicat.memberSyndicat %}
+                            <tr>
+                                <td>{{ member.firstName|title }}</td>
+                                <td>
+                                    {% for syndicat in member.syndicats %}
+                                        {{ syndicat }}
+                                    {% endfor %}
+                                </td>
+                                <td>
+                                    {#<a href="{{ path('syndicat_edit', {'id': syndicat.id}) }}"><i class="fas fa-pencil-alt"></i></a>
+                                    <a href="" data-toggle="modal" data-target="#deleteModal-{{ syndicat.id }}" ><i class="fas fa-trash"></i></a>
+                                #}
+                                </td>
+                                {#                            {{ include('syndicat/_delete_form.html.twig') }}#}
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="7" class="table-danger text-center text-danger">Aucun enregistrement trouvé</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="nav-ev" role="tabpanel" aria-labelledby="nav-ev-tab">
+            <a href="{{ path('event_new', {'id': company.id} ) }}" class="btn btn-primary mt-3 mb-3"><i class="fas fa-plus"></i> Ajouter evènement</a>
+            <table class="table table-bordered" id="dataTable">
+                <thead>
+                    <tr>
+                        <th>Titre de l'évènement</th>
+                        <th>Document</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for event in company.events %}
+                        <tr>
+                            <td><a href="{{ path('event_show', {'id': event.id}) }}">{{ event.title|title }}</a></td>
+                            <td><a href="{{ vich_uploader_asset(event, 'documentFile')}}" download>Télécharger</a> |
+                                <a href="{{ vich_uploader_asset(event, 'documentFile')}}">Afficher</a></td>
+                            <td>
+                                <a href="{{ path('event_edit', {'id': event.id}) }}"><i class="fas fa-pencil-alt"></i></a>
+                                <a href="" data-toggle="modal" data-target="#deleteModal-{{ event.id }}" ><i class="fas fa-trash"></i></a>
+                            </td>
+                            {{ include('event/_delete_form.html.twig') }}
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="7" class="table-danger text-center text-danger">Aucun enregistrement trouvé</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 
 

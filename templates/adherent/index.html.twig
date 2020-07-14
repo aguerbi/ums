@@ -1,45 +1,46 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Adherent index{% endblock %}
+{% block title %}Liste des adhérents{% endblock %}
 
 {% block body %}
-    <h1>Adherent index</h1>
-
-    <table class="table">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Liste des adhérents</h1>
+    </div>
+    <form class="col-md-4 float-right" role="search" methode="get">
+        <div class="input-group mb-3">
+            <input type="search" class="form-control" placeholder="Prénom | Nom | Cin | Portable" name="search">
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="submit" id="button-addon2"><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+    </form>
+    <table class="table table-bordered">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>FirstName</th>
-                <th>LastName</th>
+                <th>Prénom et Nom</th>
                 <th>Cin</th>
-                <th>NumberCard</th>
-                <th>Delivery_at</th>
-                <th>Mobile</th>
-                <th>actions</th>
+                <th>Protable</th>
+                <th>Société</th>
             </tr>
         </thead>
         <tbody>
-        {% for adherent in adherents %}
-            <tr>
-                <td>{{ adherent.id }}</td>
-                <td>{{ adherent.firstName }}</td>
-                <td>{{ adherent.lastName }}</td>
-                <td>{{ adherent.cin }}</td>
-                <td>{{ adherent.numberCard }}</td>
-                <td>{{ adherent.deliveryAt ? adherent.deliveryAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ adherent.mobile }}</td>
-                <td>
-                    <a href="{{ path('adherent_show', {'id': adherent.id}) }}">show</a>
-                    <a href="{{ path('adherent_edit', {'id': adherent.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">no records found</td>
-            </tr>
-        {% endfor %}
+            {% for adherent in adherents %}
+                <tr>
+                    <td>{{ adherent.fullName }} </td>
+                    <td>{{ adherent.cin }}</td>
+                    <td>{{ adherent.mobile }}</td>
+                    <td>{{ adherent.company.name }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5" class="table-danger text-center text-danger">Aucun enregistrement trouvé</td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('adherent_new') }}">Create new</a>
+    <div class="navigation">
+        {{ knp_pagination_render(adherents) }}
+    </div>
+
 {% endblock %}

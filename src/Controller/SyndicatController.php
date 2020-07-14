@@ -6,6 +6,7 @@ use App\Entity\Syndicat;
 use App\Form\SyndicatType;
 use App\Repository\CompanyRepository;
 use App\Repository\SyndicatRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,9 +20,26 @@ class SyndicatController extends AbstractController {
     /**
      * @Route("/", name="syndicat_index", methods={"GET"})
      */
-    public function index(SyndicatRepository $syndicatRepository): Response {
+    public function index(SyndicatRepository $syndicatRepository, PaginatorInterface $paginator, Request $request): Response {
+        $entityManager = $this->getDoctrine()->getManager();
+        if ($request->query->getAlnum('search')) {
+            $query = $entityManager->createQuery(
+                            'SELECT s FROM App:Syndicat s WHERE  s.name LIKE :search'
+                    )->setParameter('search', '%' . $request->query->getAlnum('search') . '%');
+            $resulat = $query->getResult();
+        } else {
+            $resulat = $syndicatRepository->findby([], ['id' => 'DESC']);
+        }
+
+        $syndicats = $paginator->paginate(
+                $resulat, /* query NOT result */
+                $request->query->getInt('page', 1), /* page number */
+                20 /* limit per page */
+        );
+
+
         return $this->render('syndicat/index.html.twig', [
-                    'syndicats' => $syndicatRepository->findAll(),
+                    'syndicats' => $syndicats,
         ]);
     }
 

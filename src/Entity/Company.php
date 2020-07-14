@@ -82,10 +82,16 @@ class Company {
      */
     private $syndicats;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Event::class, mappedBy="company", orphanRemoval=true)
+     */
+    private $events;
+
     public function __construct() {
         return $this->created_at = new \DateTime('now');
         $this->adherents = new ArrayCollection();
         $this->syndicats = new ArrayCollection();
+        $this->events = new ArrayCollection();
     }
 
     public function getId(): ?int {
@@ -228,6 +234,37 @@ class Company {
             // set the owning side to null (unless already changed)
             if ($syndicat->getCompany() === $this) {
                 $syndicat->setCompany(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Event[]
+     */
+    public function getEvents(): Collection
+    {
+        return $this->events;
+    }
+
+    public function addEvent(Event $event): self
+    {
+        if (!$this->events->contains($event)) {
+            $this->events[] = $event;
+            $event->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvent(Event $event): self
+    {
+        if ($this->events->contains($event)) {
+            $this->events->removeElement($event);
+            // set the owning side to null (unless already changed)
+            if ($event->getCompany() === $this) {
+                $event->setCompany(null);
             }
         }
 

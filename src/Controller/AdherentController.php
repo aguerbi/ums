@@ -7,6 +7,7 @@ use App\Form\AdherentType;
 use App\Repository\AdherentRepository;
 use App\Repository\CardRepository;
 use App\Repository\CompanyRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,9 +21,24 @@ class AdherentController extends AbstractController {
     /**
      * @Route("/", name="adherent_index", methods={"GET"})
      */
-    public function index(AdherentRepository $adherentRepository): Response {
+    public function index(AdherentRepository $adherentRepository, PaginatorInterface $paginator, Request $request): Response {
+        $entityManager = $this->getDoctrine()->getManager();
+        if ($request->query->getAlnum('search')) {
+            $query = $entityManager->createQuery(
+                            'SELECT a FROM App:Adherent a WHERE  a.firstName LIKE :search OR a.lastName LIKE :search OR a.mobile LIKE :search OR a.cin LIKE :search'
+                    )->setParameter('search', '%' . $request->query->getAlnum('search') . '%');
+            $resulat = $query->getResult();
+        } else {
+            $resulat = $adherentRepository->findby([], ['id' => 'DESC']);
+        }
+
+        $adherents = $paginator->paginate(
+                $resulat, /* query NOT result */
+                $request->query->getInt('page', 1), /* page number */
+                20 /* limit per page */
+        );
         return $this->render('adherent/index.html.twig', [
-                    'adherents' => $adherentRepository->findAll(),
+                    'adherents' => $adherents
         ]);
     }
 
