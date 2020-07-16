@@ -1,39 +1,46 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Event index{% endblock %}
+{% block title %}Liste des évènements{% endblock %}
 
 {% block body %}
-    <h1>Event index</h1>
-
-    <table class="table">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Liste des évènements</h1>
+    </div>
+    <form class="col-md-4 float-right" role="search" methode="get">
+        <div class="input-group mb-3">
+            <input type="search" class="form-control" placeholder="Titre" name="search">
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="submit" id="button-addon2"><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+    </form>
+    <table class="table table-bordered">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Title</th>
+                <th width="425px">Titre de l'évènement</th>
+                <th>Société</th>
+                <th>Date de modification</th>
                 <th>Document</th>
-                <th>UpdatedAt</th>
-                <th>actions</th>
             </tr>
         </thead>
         <tbody>
-        {% for event in events %}
-            <tr>
-                <td>{{ event.id }}</td>
-                <td>{{ event.title }}</td>
-                <td>{{ event.document }}</td>
-                <td>{{ event.updatedAt ? event.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('event_show', {'id': event.id}) }}">show</a>
-                    <a href="{{ path('event_edit', {'id': event.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
+            {% for event in events %}
+                <tr>
+                    <td>{{ event.title|title }}</td>
+                    <td>{{ event.company|title }}</td>
+                    <td>{{ event.updatedAt ? event.updatedAt|date('d/m/Y H:i') : '' }}</td>
+                    <td><a href="{{ vich_uploader_asset(event, 'documentFile')}}" download>Télécharger</a> |
+                        <a href="{{ vich_uploader_asset(event, 'documentFile')}}">Afficher</a></td>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4" class="table-danger text-center text-danger">Aucun enregistrement trouvé</td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('event_new') }}">Create new</a>
+    <div class="navigation">
+        {{ knp_pagination_render(events) }}
+    </div>
 {% endblock %}

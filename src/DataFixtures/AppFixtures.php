@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Adherent;
 use App\Entity\Company;
+use App\Entity\Event;
 use App\Entity\Syndicat;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -47,12 +48,20 @@ class AppFixtures extends Fixture {
                 $adherent->setCompany($company);
                 $manager->persist($adherent);
             }
+            // Ajouter Event
+            for ($k = 0; $k < 10; $k++) {
+                $event = new Event();
+                $event->setTitle($faker->text($maxNbChars = 100));
+                $event->setUpdatedAt($faker->dateTime($max = 'now'));
+                $event->setDocument($faker->bankAccountNumber);
+                $event->setCompany($company);
+                $manager->persist($event);
+            }
             // Ajouter Syndicat
             $syndicat = new Syndicat();
             $syndicat->setName($faker->city);
             $syndicat->setCompany($company);
             $manager->persist($syndicat);
-
 
             $manager->persist($company);
         }

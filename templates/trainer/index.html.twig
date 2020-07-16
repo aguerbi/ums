@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des formateurs{% endblock %}
+
+{% block body %}
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Liste des formateurs</h1>
+    </div>
+    <a href="{{ path('trainer_new') }}" class="btn btn-primary"><i class="fas fa-plus"></i> Ajouter formateur</a>
+    <form class="col-md-4 float-right" role="search" methode="get">
+        <div class="input-group mb-3">
+            <input type="search" class="form-control" placeholder="Prénom | Nom | Portable" name="search">
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="submit" id="button-addon2"><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+    </form>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Prénom et Nom</th>
+                <th>Portable</th>
+                <th>Spécialité</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for trainer in trainers %}
+                <tr>
+                    <td>{{ trainer.fullName|title }}</td>
+                    <td>{{ trainer.mobile }}</td>
+                    <td>{{ trainer.specialty }}</td>
+                    <td>
+                        <a href="{{ path('trainer_edit', {'id': trainer.id}) }}"><i class="fas fa-pencil-alt"></i></a>
+                        <a href="" data-toggle="modal" data-target="#deleteModal-{{ trainer.id }}" ><i class="fas fa-trash"></i></a>
+                    </td>
+                    {{ include('trainer/_delete_form.html.twig') }}
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5" class="table-danger text-center text-danger">Aucun enregistrement trouvé</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

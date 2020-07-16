@@ -57,7 +57,7 @@ class AdherentController extends AbstractController {
             $entityManager->persist($adherent);
             $entityManager->flush();
 
-            return $this->redirectToRoute('company_show', ['id' => $id]);
+            return $this->redirectToRoute('company_show', ['id' => $id, '_fragment' => 'nav-ad']);
         }
 
         return $this->render('adherent/new.html.twig', [
@@ -90,7 +90,7 @@ class AdherentController extends AbstractController {
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('company_show', ['id' => $adherent->getCompany()->getId()]);
+            return $this->redirectToRoute('company_show', ['id' => $adherent->getCompany()->getId(), '_fragment' => 'nav-ad']);
         }
 
         return $this->render('adherent/edit.html.twig', [
@@ -109,7 +109,7 @@ class AdherentController extends AbstractController {
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('company_show', ['id' => $adherent->getCompany()->getId()]);
+        return $this->redirectToRoute('company_show', ['id' => $adherent->getCompany()->getId(), '_fragment' => 'nav-ad']);
     }
 
 }

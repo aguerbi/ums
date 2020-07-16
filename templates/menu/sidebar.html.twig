@@ -39,8 +39,8 @@
             <span>Synadicats</span></a>
     </li>
     <!-- Nav Item - Event -->
-    <li class="nav-item ">
-        <a class="nav-link" href="{{ path('syndicat_index') }}">
+    <li class="nav-item {% if app.request.get('_route') starts with 'event' %}active{% endif %}">
+        <a class="nav-link" href="{{ path('event_index') }}">
             <i class="fas fa-fw fa-calendar-alt"></i>
             <span>Evènements</span></a>
     </li>
@@ -50,14 +50,14 @@
         Formation
     </div>
     <!-- Nav Item - Trainer -->
-    <li class="nav-item ">
-        <a class="nav-link" href="{{ path('syndicat_index') }}">
+    <li class="nav-item {% if app.request.get('_route') starts with 'trainer' %}active{% endif %}">
+        <a class="nav-link" href="{{ path('trainer_index') }}">
             <i class="fas fa-fw fa-user-graduate"></i>
             <span>Formateurs</span></a>
     </li>
     <!-- Nav Item - Session -->
-    <li class="nav-item ">
-        <a class="nav-link" href="{{ path('syndicat_index') }}">
+    <li class="nav-item {% if app.request.get('_route') starts with 'training' %}active{% endif %}">
+        <a class="nav-link" href="{{ path('training_index') }}">
             <i class="fas fa-fw fa-award"></i>
             <span>Sessions</span></a>
     </li>

@@ -58,7 +58,7 @@ class SyndicatController extends AbstractController {
             $entityManager->persist($syndicat);
             $entityManager->flush();
 
-            return $this->redirectToRoute('company_show', ['id' => $id]);
+            return $this->redirectToRoute('company_show', ['id' => $id, '_fragment' => 'nav-sy']);
         }
 
         return $this->render('syndicat/new.html.twig', [
@@ -86,7 +86,7 @@ class SyndicatController extends AbstractController {
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('company_show', ['id' => $syndicat->getCompany()->getId()]);
+            return $this->redirectToRoute('company_show', ['id' => $syndicat->getCompany()->getId(), '_fragment' => 'nav-sy']);
         }
 
         return $this->render('syndicat/edit.html.twig', [
@@ -105,7 +105,7 @@ class SyndicatController extends AbstractController {
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('company_show', ['id' => $syndicat->getCompany()->getId()]);
+        return $this->redirectToRoute('company_show', ['id' => $syndicat->getCompany()->getId(), '_fragment' => 'nav-sy']);
     }
 
 }

@@ -181,13 +181,11 @@ class Company {
     /**
      * @return Collection|Adherent[]
      */
-    public function getAdherents(): Collection
-    {
+    public function getAdherents(): Collection {
         return $this->adherents;
     }
 
-    public function addAdherent(Adherent $adherent): self
-    {
+    public function addAdherent(Adherent $adherent): self {
         if (!$this->adherents->contains($adherent)) {
             $this->adherents[] = $adherent;
             $adherent->setCompany($this);
@@ -196,8 +194,7 @@ class Company {
         return $this;
     }
 
-    public function removeAdherent(Adherent $adherent): self
-    {
+    public function removeAdherent(Adherent $adherent): self {
         if ($this->adherents->contains($adherent)) {
             $this->adherents->removeElement($adherent);
             // set the owning side to null (unless already changed)
@@ -212,13 +209,11 @@ class Company {
     /**
      * @return Collection|Syndicat[]
      */
-    public function getSyndicats(): Collection
-    {
+    public function getSyndicats(): Collection {
         return $this->syndicats;
     }
 
-    public function addSyndicat(Syndicat $syndicat): self
-    {
+    public function addSyndicat(Syndicat $syndicat): self {
         if (!$this->syndicats->contains($syndicat)) {
             $this->syndicats[] = $syndicat;
             $syndicat->setCompany($this);
@@ -227,8 +222,7 @@ class Company {
         return $this;
     }
 
-    public function removeSyndicat(Syndicat $syndicat): self
-    {
+    public function removeSyndicat(Syndicat $syndicat): self {
         if ($this->syndicats->contains($syndicat)) {
             $this->syndicats->removeElement($syndicat);
             // set the owning side to null (unless already changed)
@@ -243,13 +237,11 @@ class Company {
     /**
      * @return Collection|Event[]
      */
-    public function getEvents(): Collection
-    {
+    public function getEvents(): Collection {
         return $this->events;
     }
 
-    public function addEvent(Event $event): self
-    {
+    public function addEvent(Event $event): self {
         if (!$this->events->contains($event)) {
             $this->events[] = $event;
             $event->setCompany($this);
@@ -258,8 +250,7 @@ class Company {
         return $this;
     }
 
-    public function removeEvent(Event $event): self
-    {
+    public function removeEvent(Event $event): self {
         if ($this->events->contains($event)) {
             $this->events->removeElement($event);
             // set the owning side to null (unless already changed)
@@ -269,6 +260,10 @@ class Company {
         }
 
         return $this;
+    }
+
+    public function __toString() {
+        return $this->name;
     }
 
 }

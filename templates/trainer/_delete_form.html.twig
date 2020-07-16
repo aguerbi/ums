@@ -1,7 +1,7 @@
 <!-- Delete Modal -->
-<div class="modal fade" id="deleteModal-{{ event.id }}-{{ company.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="deleteModal-{{ trainer.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <form method="post" action="{{ path('event_delete', {'id': event.id, 'company': company.id } ) }}">
+        <form method="post" action="{{ path('trainer_delete', {'id': trainer.id}) }}">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Suppression</h5>
@@ -14,7 +14,7 @@
                 </div>
                 <div class="modal-footer">
                     <input type="hidden" name="_method" value="DELETE">
-                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ event.id) }}">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ trainer.id) }}">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
                     <button type="submit" class="btn btn-danger">Supprimer</button>
                 </div>
