@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\TrainingRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -36,6 +38,21 @@ class Training
      * @ORM\Column(type="datetime")
      */
     private $endDate;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $location;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Trainer::class, inversedBy="trainings")
+     */
+    private $trainer;
+
+    public function __construct()
+    {
+        $this->trainer = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -86,6 +103,44 @@ class Training
     public function setEndDate(\DateTimeInterface $endDate): self
     {
         $this->endDate = $endDate;
+
+        return $this;
+    }
+
+    public function getLocation(): ?string
+    {
+        return $this->location;
+    }
+
+    public function setLocation(string $location): self
+    {
+        $this->location = $location;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Trainer[]
+     */
+    public function getTrainer(): Collection
+    {
+        return $this->trainer;
+    }
+
+    public function addTrainer(Trainer $trainer): self
+    {
+        if (!$this->trainer->contains($trainer)) {
+            $this->trainer[] = $trainer;
+        }
+
+        return $this;
+    }
+
+    public function removeTrainer(Trainer $trainer): self
+    {
+        if ($this->trainer->contains($trainer)) {
+            $this->trainer->removeElement($trainer);
+        }
 
         return $this;
     }

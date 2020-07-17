@@ -51,3 +51,7 @@ $(document).ready(function () {
 $(function () {
     $('[data-toggle="tooltip"]').tooltip()
 });
+
+$(function () {
+    $('.datetimepicker5').datetimepicker();
+});

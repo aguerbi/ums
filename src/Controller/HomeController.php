@@ -2,8 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Trainer;
 use App\Form\MemberSyndicatType;
+use App\Form\TrainerTrainingType;
+use App\Form\TrainerType;
 use App\Repository\CompanyRepository;
+use App\Repository\TrainerRepository;
+use App\Repository\TrainingRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,6 +39,30 @@ class HomeController extends AbstractController {
         }
 
         return $this->render('member_syndicat/new.html.twig', [
+                    'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/add-trainer-training", name="add_trainer_training", methods={"GET","POST"})
+     */
+    public function addTrainerTraining(TrainingRepository $trainingRepository, Request $request, $id, TrainerRepository $trainerRepository): Response {
+        $entityManager = $this->getDoctrine()->getManager();
+        $training = $trainingRepository->find($id);
+        $form = $this->createForm(TrainerTrainingType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $trainer = $form->get('trainer')->getData();
+            // dd($trainer);
+            $training->addTrainer($trainer);
+            $entityManager->persist($training);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('training_show', ['id' => $id]);
+        }
+
+        return $this->render('training/add_trainer.html.twig', [
                     'form' => $form->createView(),
         ]);
     }

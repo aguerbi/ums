@@ -1,38 +1,101 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Training{% endblock %}
+{% block title %}Session de formation{% endblock %}
 
 {% block body %}
-    <h1>Training</h1>
-
-    <table class="table">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Session de formation</h1>
+    </div>
+    <table class="table table-bordered">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ training.id }}</td>
+                <th style="width: 25%">Titre</th>
+                <td style="width: 25%">{{ training.title|capitalize }}</td>
+                <th style="width: 25%">Lieu</th>
+                <td style="width: 25%">{{ training.location }}</td>
             </tr>
             <tr>
-                <th>Title</th>
-                <td>{{ training.title }}</td>
+                <th>Date de début</th>
+                <td>{{ training.startDate ? training.startDate|date('d/m/Y H:i') : '' }}</td>
+                <th>Date de fin	</th>
+                <td>{{ training.endDate ? training.endDate|date('d/m/Y H:i') : '' }}</td>
             </tr>
             <tr>
                 <th>Description</th>
-                <td>{{ training.description }}</td>
-            </tr>
-            <tr>
-                <th>StartDate</th>
-                <td>{{ training.startDate ? training.startDate|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>EndDate</th>
-                <td>{{ training.endDate ? training.endDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td colspan="3" style="text-align: justify;">{{ training.description|capitalize }}</td>
             </tr>
         </tbody>
     </table>
-
-    <a href="{{ path('training_index') }}">back to list</a>
-
-    <a href="{{ path('training_edit', {'id': training.id}) }}">edit</a>
-
+    <hr>
+    <a href="{{ path('training_edit', {'id': training.id}) }}" class="btn btn-primary float-right"><i class="fas fa-pencil-alt"></i> Modifier</a>
+    <button class="btn btn-danger float-right" data-toggle="modal" data-target="#deleteModal-{{ training.id }}"  style="margin-right: 10px;"><i class="fas fa-trash-alt"></i> Supprimer</button>
     {{ include('training/_delete_form.html.twig') }}
+    <a href="{{ path('training_index') }}" class="btn btn-info"><i class="fas fa-angle-left"></i> Retour à la liste</a>
+    <br><br>
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link active" id="nav-tr-tab" data-toggle="tab" href="#nav-tr" role="tab" aria-controls="nav-tr" aria-selected="true">Formateurs</a>
+            <a class="nav-item nav-link" id="nav-fr-tab" data-toggle="tab" href="#nav-fr" role="tab" aria-controls="nav-fr" aria-selected="false">Participants</a>
+        </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-tr" role="tabpanel" aria-labelledby="nav-tr-tab">
+            <a href="{{ path('add_trainer_training', {'id': training.id} ) }}" class="btn btn-primary mt-3 mb-3"><i class="fas fa-plus"></i> Ajouter formateur</a>
+            <table class="table table-bordered" id="dataTable">
+                <thead>
+                    <tr>
+                        <th>Prénom et Nom</th>
+                        <th>Protable</th>
+                        <th>Spécialité</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for trainer in training.trainer %}
+                        <tr>
+                            <td>{{ trainer.fullName|title }}</td>
+                            <td>{{ trainer.mobile }}</td>
+                            <td>{{ trainer.specialty }}</td>
+                            <td>
+                                <a href="{{ path('trainer_edit', {'id': trainer.id}) }}"><i class="fas fa-pencil-alt"></i></a>
+                                <a href="" data-toggle="modal" data-target="#deleteModal-{{ trainer.id }}" ><i class="fas fa-trash"></i></a>
+                            </td>
+                            {{ include('trainer/_delete_form.html.twig') }}
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="7" class="table-danger text-center text-danger">Aucun enregistrement trouvé</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="nav-fr" role="tabpanel" aria-labelledby="nav-fr-tab">
+            2{# <a href="{{ path('syndicat_new', {'id': company.id} ) }}" class="btn btn-primary mt-3 mb-3"><i class="fas fa-plus"></i> Ajouter syndicat</a>
+             <table class="table table-bordered" id="dataTable1">
+                 <thead>
+                     <tr>
+                         <th>Nom</th>
+                         <th></th>
+                     </tr>
+                 </thead>
+                 <tbody>
+                     {% for syndicat in company.syndicats %}
+                         <tr>
+                             <td>{{ syndicat.Name|title }}</td>
+                             <td>
+                                 <a href="{{ path('syndicat_edit', {'id': syndicat.id}) }}"><i class="fas fa-pencil-alt"></i></a>
+                                 <a href="" data-toggle="modal" data-target="#deleteModal-{{ syndicat.id }}" ><i class="fas fa-trash"></i></a>
+                             </td>
+                             {{ include('syndicat/_delete_form.html.twig') }}
+                         </tr>
+                     {% else %}
+                         <tr>
+                             <td colspan="7" class="table-danger text-center text-danger">Aucun enregistrement trouvé</td>
+                         </tr>
+                     {% endfor %}
+                 </tbody>
+             </table>#}
+        </div>
+    </div>
 {% endblock %}

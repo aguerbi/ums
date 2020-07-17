@@ -6,6 +6,8 @@ use App\Entity\Adherent;
 use App\Entity\Company;
 use App\Entity\Event;
 use App\Entity\Syndicat;
+use App\Entity\Trainer;
+use App\Entity\Training;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -64,6 +66,25 @@ class AppFixtures extends Fixture {
             $manager->persist($syndicat);
 
             $manager->persist($company);
+        }
+        // Ajouter Formation
+        for ($l = 0; $l < 50; $l++) {
+            $training = new Training();
+            $training->setTitle($faker->text($maxNbChars = 100));
+            $training->setDescription($faker->text($maxNbChars = 500));
+            $training->setStartDate($faker->dateTime($max = 'now'));
+            $training->setEndDate($faker->dateTime($max = 'now'));
+            $training->setLocation($faker->city);
+            $manager->persist($training);
+        }
+        // Ajouter Formateur
+        for ($l = 0; $l < 100; $l++) {
+            $trainer = new Trainer();
+            $trainer->setFirstName($faker->firstName);
+            $trainer->setLastName($faker->lastName);
+            $trainer->setMobile($faker->numerify('########'));
+            $trainer->setSpecialty($faker->word);
+            $manager->persist($trainer);
         }
         $manager->flush();
     }
