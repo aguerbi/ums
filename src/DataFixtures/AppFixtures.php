@@ -25,9 +25,20 @@ class AppFixtures extends Fixture {
     public function load(ObjectManager $manager) {
         $faker = Factory::create('fr_FR');
         // Ajouter utilisateur
+        $admin = new User();
+        $admin->setUsername('admin');
+        $admin->setFullName('Abdekarim Aguerbi');
+        $admin->setPassword($this->passwordEncoder->encodePassword($admin, 'password'));
+        $admin->setEmail('admin@admin.com');
+        $admin->setEnabled(true);
+        $admin->setRoles(array('ROLE_ADMIN'));
+        $manager->persist($admin);
         $user = new User();
-        $user->setUsername('admin');
+        $user->setUsername('user');
+        $user->setFullName('Salem Cherih');
         $user->setPassword($this->passwordEncoder->encodePassword($user, 'password'));
+        $user->setEmail('user@user.com');
+        $user->setEnabled(true);
         $user->setRoles(array('ROLE_USER'));
         $manager->persist($user);
         // Ajouter société
