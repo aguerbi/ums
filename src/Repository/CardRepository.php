@@ -78,4 +78,14 @@ class CardRepository extends ServiceEntityRepository {
         return $q->getResult();
     }
 
+    public function getListMembersSyndicates() {
+
+        $q = $this->getEntityManager()->createQuery(
+                "SELECT a
+	          FROM  App:Adherent a JOIN App:Card c WITH c.adherent = a.id
+                  WHERE c.year = YEAR(NOW()) OR c.year = YEAR(NOW())-1 OR c.year = YEAR(NOW())-2"
+        );
+        return $q->getResult();
+    }
+
 }

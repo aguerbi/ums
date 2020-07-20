@@ -56,7 +56,7 @@ class EventController extends AbstractController {
             $event->setCompany($company);
             $entityManager->persist($event);
             $entityManager->flush();
-
+            $this->addFlash('success', 'Evènement ajouté');
             return $this->redirectToRoute('company_show', ['id' => $id, '_fragment' => 'nav-ev']);
         }
 
@@ -84,7 +84,7 @@ class EventController extends AbstractController {
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
+            $this->addFlash('success', 'Evènement modifié');
             return $this->redirectToRoute('company_show', ['id' => $event->getCompany()->getId(), '_fragment' => 'nav-ev']);
         }
 
@@ -103,7 +103,7 @@ class EventController extends AbstractController {
             $entityManager->remove($event);
             $entityManager->flush();
         }
-
+        $this->addFlash('success', 'Evènement supprimé');
         return $this->redirectToRoute('company_show', ['id' => $company, '_fragment' => 'nav-ev']);
     }
 

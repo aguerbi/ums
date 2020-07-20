@@ -39,7 +39,7 @@ class CardController extends AbstractController {
             $card->setAdherent($adherent);
             $entityManager->persist($card);
             $entityManager->flush();
-
+            $this->addFlash('success', 'Carte ajouté');
             return $this->redirectToRoute('adherent_show', ['id' => $id]);
         }
 
@@ -67,7 +67,7 @@ class CardController extends AbstractController {
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
+            $this->addFlash('success', 'Carte modifié');
             return $this->redirectToRoute('adherent_show', ['id' => $card->getAdherent()->getId()]);
         }
 
@@ -86,7 +86,7 @@ class CardController extends AbstractController {
             $entityManager->remove($card);
             $entityManager->flush();
         }
-
+        $this->addFlash('success', 'Carte supprimé');
         return $this->redirectToRoute('adherent_show', ['id' => $card->getAdherent()->getId()]);
     }
 

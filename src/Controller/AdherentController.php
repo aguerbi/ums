@@ -56,7 +56,7 @@ class AdherentController extends AbstractController {
             $adherent->setCompany($company);
             $entityManager->persist($adherent);
             $entityManager->flush();
-
+            $this->addFlash('success', 'Adhérent ajouté');
             return $this->redirectToRoute('company_show', ['id' => $id, '_fragment' => 'nav-ad']);
         }
 
@@ -89,7 +89,7 @@ class AdherentController extends AbstractController {
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
+            $this->addFlash('success', 'Adhérent modifié');
             return $this->redirectToRoute('company_show', ['id' => $adherent->getCompany()->getId(), '_fragment' => 'nav-ad']);
         }
 
@@ -108,7 +108,7 @@ class AdherentController extends AbstractController {
             $entityManager->remove($adherent);
             $entityManager->flush();
         }
-
+        $this->addFlash('success', 'Adhérent supprimé');
         return $this->redirectToRoute('company_show', ['id' => $adherent->getCompany()->getId(), '_fragment' => 'nav-ad']);
     }
 

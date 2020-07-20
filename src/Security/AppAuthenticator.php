@@ -67,6 +67,9 @@ class AppAuthenticator extends AbstractFormLoginAuthenticator implements Passwor
         if (!$user) {
             // fail authentication with a custom error
             throw new CustomUserMessageAuthenticationException('Le nom d\'utilisateur est introuvable.');
+        } elseif ($user->getEnabled() == false) {
+
+            throw new CustomUserMessageAuthenticationException('Votre compte a été désactivé.');
         }
 
         return $user;

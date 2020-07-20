@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon compte{% endblock %}
+{% block title_header %}Mon compte{% endblock %}
+
+{% block body %}
+
+    {# <h2 class="headings-and-paragraphs">Renseignements généraux</h2>#}
+
+    {# {% if user.logo %}
+         <div class="float-right" ><img src="{{asset('img/'~user.logo~'')}}" width="100px"  /></div>
+         {% else %}
+         <div class="float-right" ><img src="{{asset('img/no-image.svg')}}" width="100px"  /></div>
+         {% endif %}#}
+    {#<p><b>Société</b> : {{ user.company }}</p>#}
+    <p><b>Nom d'utilisateur</b> : {{ user.username }}</p>
+    <p><b>Nom & Prénom</b> : {{ user.fullname }}</p>
+    {#  <p><b>Téléphone</b> : {{ user.phone }}</p>
+      <p><b>Fax</b> : {{ user.fax }}</p>
+      <p><b>Portable :</b> {{ user.mobile }}</p>#}
+    <p><b>E-mail</b> : {{ user.email }}</p>
+    <p><b>Mot de passe</b> : ********</p>
+    {#  <p><b>Matricule fiscale</b> : {{ user.taxId }}</p>
+      <p><b>RIB</b> : {{ user.bankId }}</p>#}
+
+    <hr>
+    <a href="{{ path('edit_profile') }}" class="btn btn-primary"><i class="fas fa-pencil-alt"></i> Modifier compte</a>
+    <a href="{{ path('change_password') }}" class="btn btn-secondary"><i class="fas fa-lock"></i> Changer mot de passe</a>
+
+{% endblock %}

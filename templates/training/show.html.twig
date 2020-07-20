@@ -71,31 +71,35 @@
             </table>
         </div>
         <div class="tab-pane fade" id="nav-fr" role="tabpanel" aria-labelledby="nav-fr-tab">
-            2{# <a href="{{ path('syndicat_new', {'id': company.id} ) }}" class="btn btn-primary mt-3 mb-3"><i class="fas fa-plus"></i> Ajouter syndicat</a>
-             <table class="table table-bordered" id="dataTable1">
-                 <thead>
-                     <tr>
-                         <th>Nom</th>
-                         <th></th>
-                     </tr>
-                 </thead>
-                 <tbody>
-                     {% for syndicat in company.syndicats %}
-                         <tr>
-                             <td>{{ syndicat.Name|title }}</td>
-                             <td>
-                                 <a href="{{ path('syndicat_edit', {'id': syndicat.id}) }}"><i class="fas fa-pencil-alt"></i></a>
-                                 <a href="" data-toggle="modal" data-target="#deleteModal-{{ syndicat.id }}" ><i class="fas fa-trash"></i></a>
-                             </td>
-                             {{ include('syndicat/_delete_form.html.twig') }}
-                         </tr>
-                     {% else %}
-                         <tr>
-                             <td colspan="7" class="table-danger text-center text-danger">Aucun enregistrement trouvé</td>
-                         </tr>
-                     {% endfor %}
-                 </tbody>
-             </table>#}
+            <a href="{{ path('add_participant', {'id': training.id} ) }}" class="btn btn-primary mt-3 mb-3"><i class="fas fa-plus"></i> Ajouter participant</a>
+            <table class="table table-bordered" id="dataTable1">
+                <thead>
+                    <tr>
+                        <th>Nom et prénom</th>
+                        <th>portable</th>
+                        <th>Société</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for participant in training.participants %}
+                        <tr>
+                            <td>{{ participant.fullName|title }}</td>
+                            <td>{{ participant.mobile|title }}</td>
+                            <td>{{ participant.company.name|title }}</td>
+                            {#<td>
+                                <a href="{{ path('syndicat_edit', {'id': syndicat.id}) }}"><i class="fas fa-pencil-alt"></i></a>
+                                <a href="" data-toggle="modal" data-target="#deleteModal-{{ syndicat.id }}" ><i class="fas fa-trash"></i></a>
+                            </td>
+                            {{ include('syndicat/_delete_form.html.twig') }}#}
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="7" class="table-danger text-center text-danger">Aucun enregistrement trouvé</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 {% endblock %}

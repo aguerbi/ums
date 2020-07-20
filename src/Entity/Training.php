@@ -49,9 +49,15 @@ class Training
      */
     private $trainer;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Adherent::class, inversedBy="trainings")
+     */
+    private $participants;
+
     public function __construct()
     {
         $this->trainer = new ArrayCollection();
+        $this->participants = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -140,6 +146,32 @@ class Training
     {
         if ($this->trainer->contains($trainer)) {
             $this->trainer->removeElement($trainer);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Adherent[]
+     */
+    public function getParticipants(): Collection
+    {
+        return $this->participants;
+    }
+
+    public function addParticipant(Adherent $participant): self
+    {
+        if (!$this->participants->contains($participant)) {
+            $this->participants[] = $participant;
+        }
+
+        return $this;
+    }
+
+    public function removeParticipant(Adherent $participant): self
+    {
+        if ($this->participants->contains($participant)) {
+            $this->participants->removeElement($participant);
         }
 
         return $this;

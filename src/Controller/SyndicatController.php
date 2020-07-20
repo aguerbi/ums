@@ -57,7 +57,7 @@ class SyndicatController extends AbstractController {
             $syndicat->setCompany($company);
             $entityManager->persist($syndicat);
             $entityManager->flush();
-
+            $this->addFlash('success', 'Syndicat ajouté');
             return $this->redirectToRoute('company_show', ['id' => $id, '_fragment' => 'nav-sy']);
         }
 
@@ -85,7 +85,7 @@ class SyndicatController extends AbstractController {
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
+            $this->addFlash('success', 'Syndicat modifié');
             return $this->redirectToRoute('company_show', ['id' => $syndicat->getCompany()->getId(), '_fragment' => 'nav-sy']);
         }
 
@@ -104,7 +104,7 @@ class SyndicatController extends AbstractController {
             $entityManager->remove($syndicat);
             $entityManager->flush();
         }
-
+        $this->addFlash('success', 'Syndicat supprimé');
         return $this->redirectToRoute('company_show', ['id' => $syndicat->getCompany()->getId(), '_fragment' => 'nav-sy']);
     }
 

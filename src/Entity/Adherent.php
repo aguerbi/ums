@@ -55,9 +55,15 @@ class Adherent {
      */
     private $syndicats;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Training::class, mappedBy="participants")
+     */
+    private $trainings;
+
     public function __construct() {
         $this->cards = new ArrayCollection();
         $this->syndicats = new ArrayCollection();
+        $this->trainings = new ArrayCollection();
     }
 
     public function getId(): ?int {
@@ -169,6 +175,34 @@ class Adherent {
 
     public function fullName() {
         return $this->firstName . " " . $this->lastName;
+    }
+
+    /**
+     * @return Collection|Training[]
+     */
+    public function getTrainings(): Collection
+    {
+        return $this->trainings;
+    }
+
+    public function addTraining(Training $training): self
+    {
+        if (!$this->trainings->contains($training)) {
+            $this->trainings[] = $training;
+            $training->addParticipant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTraining(Training $training): self
+    {
+        if ($this->trainings->contains($training)) {
+            $this->trainings->removeElement($training);
+            $training->removeParticipant($this);
+        }
+
+        return $this;
     }
 
 }
